@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import 'antd/dist/reset.css';
 import { notification, message } from 'antd';
 
-console.log('ABOBA');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 notification.config({
     getContainer: () => document.getElementById('root'),
