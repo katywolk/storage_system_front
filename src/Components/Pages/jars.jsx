@@ -148,7 +148,8 @@ const Jars = () => {
                 {jars.map((jar) => {
                     const hasTobacco = jar.tobaccos?.length > 0;
                     const tobacco = jar.tobaccos[0]?.tobaccoId;
-
+                    console.log(process.env);
+                    console.log(process.env.REACT_APP_BASE_URL);
                     return (
                         <Col key={jar._id} xs={24} sm={12} md={8} lg={6}>
                             <Card title={jar.title} hoverable>
