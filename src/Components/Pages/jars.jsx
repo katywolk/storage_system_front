@@ -149,16 +149,22 @@ const Jars = () => {
                 {jars.map((jar) => {
                     const hasTobacco = jar.tobaccos?.length > 0;
                     const tobacco = jar.tobaccos[0]?.tobaccoId;
+                    const qrValue = jar._id
+                        ? `${process.env.REACT_APP_BASE_URL}/jar/${jar._id}`
+                        : null;
                     return (
                         <Col key={jar._id} xs={24} sm={12} md={8} lg={6}>
                             <Card title={jar.title} hoverable>
                                 <div style={{ textAlign: "center", marginBottom: 12 }}>
-                                    <QRCodeWithLogo
-                                        value="https://example.com/item/123"
-                                        logoUrl="/logo.png"  // логотип должен быть доступен публично
-                                        size={220}
-                                    />
+                                    {qrValue && (
+                                        <QRCodeWithLogo
+                                            value={qrValue}
+                                            logoUrl="/logo.png"
+                                            size={160}
+                                        />
+                                    )}
                                 </div>
+
 
                                 {hasTobacco ? (
                                     <List
