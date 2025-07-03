@@ -152,15 +152,16 @@ const Jars = () => {
                     const qrValue = jar._id
                         ? `${process.env.REACT_APP_BASE_URL}/jar/${jar._id}`
                         : null;
-                    return (
+                    console.log (jar.imageUrl);
+                    return(
                         <Col key={jar._id} xs={24} sm={12} md={8} lg={6}>
                             <Card title={jar.title} hoverable>
                                 <div style={{ textAlign: "center", marginBottom: 12 }}>
                                     {qrValue && (
                                         <QRCodeWithLogo
                                             value={qrValue}
-                                            logoUrl={jar.ImageUrl}
-                                            size={160}
+                                            logoUrl={jar.imageUrl}
+                                            size={400}
                                         />
                                     )}
                                 </div>
