@@ -16,8 +16,7 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { QRCodeCanvas } from "qrcode.react";
-import QRCodeWithLogo from "./QRCodeWithLogo";
+import QRCodeWithLogo from "../QRCode";
 
 
 const { Title, Text } = Typography;
