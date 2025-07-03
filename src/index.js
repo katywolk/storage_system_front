@@ -10,12 +10,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 notification.config({
     getContainer: () => document.getElementById('root'),
     placement: "topRight",
-    duration: 4
+    duration: 1
 });
 
 message.config({
     getContainer: () => document.getElementById('root'),
-    duration: 3
+    duration: 1,
+    top: 70
 });
 root.render(
   <React.StrictMode>
