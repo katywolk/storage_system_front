@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { drawLogoQRCode } from "qrcode-with-logos";
+import drawLogoQRCode from "qrcode-with-logos";
 
 const QRCodeWithLogo = ({ value, logoUrl, size = 200 }) => {
     const canvasRef = useRef(null);
