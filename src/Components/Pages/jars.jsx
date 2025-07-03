@@ -17,6 +17,8 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { QRCodeCanvas } from "qrcode.react";
+import QRCodeWithLogo from "./QRCodeWithLogo";
+
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -148,15 +150,14 @@ const Jars = () => {
                 {jars.map((jar) => {
                     const hasTobacco = jar.tobaccos?.length > 0;
                     const tobacco = jar.tobaccos[0]?.tobaccoId;
-                    console.log(process.env);
-                    console.log(process.env.REACT_APP_BASE_URL);
                     return (
                         <Col key={jar._id} xs={24} sm={12} md={8} lg={6}>
                             <Card title={jar.title} hoverable>
                                 <div style={{ textAlign: "center", marginBottom: 12 }}>
-                                    <QRCodeCanvas
-                                        value={`${process.env.REACT_APP_BASE_URL}/jar/${jar._id}`}
-                                        size={100}
+                                    <QRCodeWithLogo
+                                        value="https://example.com/item/123"
+                                        logoUrl="/logo.png"  // логотип должен быть доступен публично
+                                        size={220}
                                     />
                                 </div>
 
