@@ -17,6 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import QRCodeWithLogo from "../QRCode";
+import {getBackendUrl} from "../../utils";
 
 
 const { Title, Text } = Typography;
