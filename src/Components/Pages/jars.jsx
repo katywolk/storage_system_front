@@ -50,8 +50,8 @@ const Jars = () => {
     const fetchData = async () => {
         try {
             const [jarRes, tobaccoRes] = await Promise.all([
-                axios.get(`${process.env.REACT_APP_API_URL}/api/jars`),
-                axios.get(`${process.env.REACT_APP_API_URL}/api/tobaccos`)
+                axios.get(`${getBackendUrl()}/api/jars`),
+                axios.get(`${getBackendUrl()}/api/tobaccos`)
             ]);
             setJars(jarRes.data);
             setTobaccos(tobaccoRes.data);
@@ -65,7 +65,7 @@ const Jars = () => {
     const handlePutTobacco = async (values) => {
         try {
             await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/jars/${activeJar}/add`,
+                `${getBackendUrl()}/api/jars/${activeJar}/add`,
                 { tobaccoId: values.tobaccoId },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -80,7 +80,7 @@ const Jars = () => {
 
     const handleDeleteTobacco = async (jarId) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/api/jars/${jarId}/tobacco`, {
+            await axios.delete(`${getBackendUrl()}/api/jars/${jarId}/tobacco`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             message.success("Табак удалён");
@@ -106,7 +106,7 @@ const Jars = () => {
 
     const handleCreateJar = async (values) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/jars`, values, {
+            await axios.post(`${getBackendUrl()}/api/jars`, values, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             message.success("Банка создана");
@@ -180,8 +180,10 @@ const Jars = () => {
                 {jars.map((jar) => {
                     const hasTobacco = jar.tobaccos?.length > 0;
                     const tobacco = jar.tobaccos[0]?.tobaccoId;
+                    const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
                     const qrValue = jar._id
-                        ? `${process.env.REACT_APP_BASE_URL}/jar/${jar._id}`
+                        // ? `${pro_cess.env.REACT_APP_BASE_URL}/jar/${jar._id}`
+                        ? `${baseUrl}/jar/${jar._id}`
                         : null;
                     console.log (jar.imageUrl);
                     return(
