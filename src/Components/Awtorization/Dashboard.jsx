@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "antd";
+import {getBackendUrl} from "../../utils";
 
 
 const Dashboard = () => {
@@ -17,7 +18,7 @@ const Dashboard = () => {
             return;
         }
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/me`, {
+        fetch(`${getBackendUrl()}/api/me`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -36,7 +37,7 @@ const Dashboard = () => {
     useEffect(() => {
         if (!user) return;
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/jars`)
+        fetch(`${getBackendUrl()}/api/jars`)
             .then(res => res.json())
             .then(data => {
                 setItems(data);

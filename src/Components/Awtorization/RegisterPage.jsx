@@ -4,6 +4,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LoginPage.css";
+import { getBackendUrl } from "../../utils";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ const RegisterPage = () => {
         }
 
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/register`, {
+            await axios.post(`${getBackendUrl()}/api/register`, {
                 email,
                 password,
             });

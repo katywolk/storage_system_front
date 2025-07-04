@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Typography, Row, Col, Divider, Spin, message } from "antd";
 import axios from "axios";
+import {getBackendUrl} from "../../utils";
 
 const { Title, Text } = Typography;
 
@@ -9,7 +10,7 @@ const MixesList = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/mixes`)
+        axios.get(`${getBackendUrl()}/api/mixes`)
             .then(res => {
                 setMixes(res.data);
                 setLoading(false);

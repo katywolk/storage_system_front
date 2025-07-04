@@ -42,7 +42,6 @@ function App() {
                         <Route path="/mixes" element={<MixesList />} />
                         {/*<Route path="/comments" element={<CommentsPage />} />*/}
                         <Route path="/login" element={<LoginPage />} />
-                        console.log("API URL:", process.env.REACT_APP_API_URL);
                     </Routes>
                 </Layout.Content>
                 </Layout>

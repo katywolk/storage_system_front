@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Spin, Alert, Typography, List } from "antd";
 import axios from "axios";
+import {getBackendUrl} from "../../utils";
 
 const { Title, Text } = Typography;
 
@@ -13,7 +14,7 @@ const Jar = () => {
 
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_API_URL}/api/jar/${id}`)
+            .get(`${getBackendUrl()}/api/jar/${id}`)
             .then((res) => {
                 setJar(res.data);
                 setLoading(false);

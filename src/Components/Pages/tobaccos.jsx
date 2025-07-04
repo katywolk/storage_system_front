@@ -3,6 +3,7 @@ import { Card, Input, Button, Typography, Row, Col, Modal, Form, message } from 
 import axios from "axios";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { getBackendUrl } from "../../utils";
 
 const { Title } = Typography;
 
@@ -22,7 +23,7 @@ const TobaccosList = () => {
 
     const fetchTobaccos = async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tobaccos`);
+            const res = await axios.get(`${getBackendUrl()}/api/tobaccos`);
             setTobaccos(res.data);
         } catch (err) {
             message.error("Ошибка при загрузке табаков");
@@ -36,7 +37,7 @@ const TobaccosList = () => {
 
     const handleCreate = async (values) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/tobaccos`, values, {
+            await axios.post(`${getBackendUrl()}/api/tobaccos`, values, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             message.success("Табак добавлен!");
@@ -50,7 +51,7 @@ const TobaccosList = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/api/tobaccos/${id}`, {
+            await axios.delete(`${getBackendUrl()}/api/tobaccos/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             message.success("Удалено");

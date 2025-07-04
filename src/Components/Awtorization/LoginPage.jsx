@@ -4,13 +4,14 @@ import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LoginPage.css";
+import {getBackendUrl} from "../../utils";
 
 const LoginPage = () => {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`,
+            const res = await axios.post(`${getBackendUrl()}/api/login`,
                 values,
                 { withCredentials: true }
             );

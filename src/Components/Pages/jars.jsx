@@ -17,7 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import QRCodeWithLogo from "../QRCode";
-import {getBackendUrl} from "../../utils";
+import {getBackendUrl, getFrontendUrl} from "../../utils";
 
 
 const { Title, Text } = Typography;
@@ -181,10 +181,8 @@ const Jars = () => {
                 {jars.map((jar) => {
                     const hasTobacco = jar.tobaccos?.length > 0;
                     const tobacco = jar.tobaccos[0]?.tobaccoId;
-                    const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
                     const qrValue = jar._id
-                        // ? `${pro_cess.env.REACT_APP_BASE_URL}/jar/${jar._id}`
-                        ? `${baseUrl}/jar/${jar._id}`
+                        ? `${getFrontendUrl()}/jar/${jar._id}`
                         : null;
                     console.log (jar.imageUrl);
                     return(

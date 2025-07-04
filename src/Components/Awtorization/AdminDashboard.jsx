@@ -9,6 +9,7 @@ import {
     message,
 } from "antd";
 import axios from "axios";
+import { getBackendUrl } from "../../utils";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -35,7 +36,7 @@ const AdminDashboard = () => {
 
     const fetchTobaccos = async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/tobaccos`);
+            const res = await axios.get(`${getBackendUrl()}/api/tobaccos`);
             setTobaccos(res.data);
         } catch (err) {
             message.error("Ошибка при загрузке табаков");
@@ -44,7 +45,7 @@ const AdminDashboard = () => {
 
     const fetchJars = async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/jars`);
+            const res = await axios.get(`${getBackendUrl()}/api/jars`);
             setJars(res.data);
         } catch (err) {
             message.error("Ошибка при загрузке банок");
@@ -53,7 +54,7 @@ const AdminDashboard = () => {
 
     const handleCreateTobacco = async (values) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/tobaccos`, values, {
+            await axios.post(`${getBackendUrl()}/api/tobaccos`, values, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             message.success("Табак добавлен");
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
 
     const handleCreateJar = async (values) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/jars`, values, {
+            await axios.post(`${getBackendUrl()}/api/jars`, values, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             message.success("Банка создана");
@@ -81,7 +82,7 @@ const AdminDashboard = () => {
 
     const handlePutTobacco = async (values) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/jars/${values.jarId}/add`, {
+            await axios.post(`${getBackendUrl()}/api/jars/${values.jarId}/add`, {
                 tobaccoId: values.tobaccoId,
             }, {
                 headers: { Authorization: `Bearer ${token}` },

@@ -14,6 +14,7 @@ import {
     Divider
 } from "antd";
 import axios from "axios";
+import { getBackendUrl } from "../../utils";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -25,7 +26,7 @@ const MixPage = () => {
 
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_API_URL}/api/tobaccos`)
+            .get(`${getBackendUrl()}/api/tobaccos`)
             .then((res) => {
                 const onlyTobaccos = res.data.filter((t) => t.type === "tobacco");
                 setTobaccos(onlyTobaccos);
@@ -68,7 +69,7 @@ const MixPage = () => {
                 createdAt: new Date()
             };
 
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/mixes`, payload, {
+            await axios.post(`${getBackendUrl()}/api/mixes`, payload, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "application/json",

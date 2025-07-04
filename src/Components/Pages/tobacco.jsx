@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Rate, Form, Input, Button, Spin, Alert, message } from "antd";
 import axios from "axios";
+import { getBackendUrl } from "../../utils";
 
 const { TextArea } = Input;
 
@@ -16,7 +17,7 @@ const TobaccoInfoPage = () => {
 
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_API_URL}/api/tobaccos/${id}`)
+            .get(`${getBackendUrl()}/api/tobaccos/${id}`)
             .then((res) => {
                 setTobacco(res.data);
                 setLoading(false);
