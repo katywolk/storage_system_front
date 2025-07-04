@@ -184,7 +184,6 @@ const Jars = () => {
                     const qrValue = jar._id
                         ? `${getFrontendUrl()}/jar/${jar._id}`
                         : null;
-                    console.log (jar.imageUrl);
                     return(
                         <Col key={jar._id} xs={24} sm={12} md={8} lg={6}>
                             <Card title={jar.title} hoverable>
