@@ -31,14 +31,21 @@ const Jars = () => {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [form] = Form.useForm();
     const [createForm] = Form.useForm();
+    const [printMode, setPrintMode] = useState(false);
 
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
     const isAdmin = user?.role === "admin";
 
     useEffect(() => {
+        if (printMode) {
+            setTimeout(() => {
+                window.print();
+                setPrintMode(false);
+            }, 300);
+        };
         fetchData();
-    }, []);
+    }, [printMode]);
 
     const fetchData = async () => {
         try {
@@ -83,6 +90,20 @@ const Jars = () => {
         }
     };
 
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const base64 = reader.result;
+            createForm.setFieldsValue({ imageUrl: base64 }); // вставляем base64 в input
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleCreateJar = async (values) => {
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/api/jars`, values, {
@@ -97,6 +118,7 @@ const Jars = () => {
         }
     };
 
+
     const usedTobaccoIds = new Set(
         jars.map((jar) => jar.tobaccos[0]?.tobaccoId?._id).filter(Boolean)
     );
@@ -109,18 +131,24 @@ const Jars = () => {
     if (error)
         return <Alert type="error" message={error} style={{ marginTop: 100 }} />;
 
+
     return (
         <div style={{ padding: "40px" }}>
-            <Title level={2}>Банки</Title>
+            <Title className="no-print" level={2}>Банки</Title>
 
             {isAdmin && (
                 <>
                     <Button
+                        className="no-print"
                         type="dashed"
                         onClick={() => setShowCreateModal(true)}
                         style={{ marginBottom: 24 }}
                     >
                         Добавить новую банку
+                    </Button>
+
+                    <Button className="no-print" type="primary" onClick={() => setPrintMode(true)} style={{ marginBottom: 16 }}>
+                        Печать QR-кодов
                     </Button>
 
                     <Modal
@@ -140,6 +168,9 @@ const Jars = () => {
                             <Form.Item name="imageUrl" label="Ссылка на изображение (необязательно)">
                                 <Input />
                             </Form.Item>
+                            <Form.Item label="Или загрузите изображение">
+                                <input type="file" accept="image/*" onChange={handleFileUpload} />
+                            </Form.Item>
                         </Form>
                     </Modal>
                 </>
@@ -156,7 +187,7 @@ const Jars = () => {
                     return(
                         <Col key={jar._id} xs={24} sm={12} md={8} lg={6}>
                             <Card title={jar.title} hoverable>
-                                <div style={{ textAlign: "center", marginBottom: 12 }}>
+                                <div className="print-only" style={{ textAlign: "center", marginBottom: 12 }}>
                                     {qrValue && (
                                         <QRCodeWithLogo
                                             value={qrValue}
@@ -172,7 +203,7 @@ const Jars = () => {
                                         size="small"
                                         dataSource={[tobacco]}
                                         renderItem={(t) => (
-                                            <List.Item>
+                                            <List.Item className="no-print">
                                                 <Text>{t.title}</Text>
                                                 {isAdmin && (
                                                     <Button
@@ -188,19 +219,20 @@ const Jars = () => {
                                         )}
                                     />
                                 ) : (
-                                    <Text type="secondary">Пока пусто</Text>
+                                    <Text className="no-print" type="secondary">Пока пусто</Text>
                                 )}
 
-                                <Text type="secondary" style={{ display: "block", marginTop: 10 }}>
+                                <Text className="no-print" type="secondary" style={{ display: "block", marginTop: 10 }}>
                                     Создана: {new Date(jar.createdAt).toLocaleString()}
                                 </Text>
 
-                                <Link to={`/jar/${jar._id}`} style={{ display: "block", marginTop: 8 }}>
+                                <Link className="no-print" to={`/jar/${jar._id}`} style={{ display: "block", marginTop: 8 }}>
                                     Перейти к банке
                                 </Link>
 
                                 {isAdmin && (
                                     <Button
+                                        className="no-print"
                                         type="primary"
                                         style={{ marginTop: 12 }}
                                         onClick={() => setActiveJar(jar._id)}

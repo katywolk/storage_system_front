@@ -14,6 +14,7 @@ import MixPage from "./Components/Pages/mix";
 import MixesList from "./Components/Pages/mixes";
 import { Layout } from "antd";
 import Navbar from "./Components/Layout/Navbar";
+import "./App.css";
 
 
 
