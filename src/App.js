@@ -15,11 +15,12 @@ import MixesList from "./Components/Pages/mixes";
 import { Layout } from "antd";
 import Navbar from "./Components/Layout/Navbar";
 import "./App.css";
+import {getBackendUrl} from "./utils";
 
 
 
 function App() {
-    console.log("API URL:", process.env.REACT_APP_API_URL);
+    console.log("API URL:", getBackendUrl());
 
 
     return (

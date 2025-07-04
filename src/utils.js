@@ -1,3 +1,3 @@
 export function getBackendUrl() {
-    return `${window.location.protocol}//${window.location.hostname}:${window.location.port+1}`;
+    return `${window.location.protocol}//${window.location.hostname}:${parseInt(window.location.port)+1}`;
 }
