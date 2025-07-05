@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Card, Input, Button, Typography, Row, Col, Modal, Form, message } from "antd";
-import axios from "axios";
+import API from "../Utils/axiosInstance";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { getBackendUrl } from "../../utils";
 
 const { Title } = Typography;
 
@@ -14,7 +13,6 @@ const TobaccosList = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
-    const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
@@ -23,7 +21,7 @@ const TobaccosList = () => {
 
     const fetchTobaccos = async () => {
         try {
-            const res = await axios.get(`${getBackendUrl()}/api/tobaccos`);
+            const res = await API.get(`/tobaccos`);
             setTobaccos(res.data);
         } catch (err) {
             message.error("Ошибка при загрузке табаков");
@@ -37,9 +35,7 @@ const TobaccosList = () => {
 
     const handleCreate = async (values) => {
         try {
-            await axios.post(`${getBackendUrl()}/api/tobaccos`, values, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            await API.post(`/tobaccos`, values);
             message.success("Табак добавлен!");
             setShowModal(false);
             form.resetFields();
@@ -51,9 +47,7 @@ const TobaccosList = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`${getBackendUrl()}/api/tobaccos/${id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            await API.delete(`/tobaccos/${id}`);
             message.success("Удалено");
             fetchTobaccos();
         } catch (err) {

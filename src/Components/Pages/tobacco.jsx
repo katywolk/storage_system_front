@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Rate, Form, Input, Button, Spin, Alert, message } from "antd";
-import axios from "axios";
-import { getBackendUrl } from "../../utils";
+import API from "../Utils/axiosInstance";
 
 const { TextArea } = Input;
 
@@ -16,8 +15,8 @@ const TobaccoInfoPage = () => {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        axios
-            .get(`${getBackendUrl()}/api/tobaccos/${id}`)
+        API
+            .get(`/tobaccos/${id}`)
             .then((res) => {
                 setTobacco(res.data);
                 setLoading(false);
@@ -36,7 +35,7 @@ const TobaccoInfoPage = () => {
 
         setSubmitting(true);
         try {
-            await axios.post("/api/tobaccos/review", {
+            await API.post("/tobaccos/review", {
                 tobaccoId: id,
                 rating,
                 comment,

@@ -8,8 +8,7 @@ import {
     Typography,
     message,
 } from "antd";
-import axios from "axios";
-import { getBackendUrl } from "../../utils";
+import API from "../Utils/axiosInstance";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -36,7 +35,7 @@ const AdminDashboard = () => {
 
     const fetchTobaccos = async () => {
         try {
-            const res = await axios.get(`${getBackendUrl()}/api/tobaccos`);
+            const res = await API.get(`/tobaccos`);
             setTobaccos(res.data);
         } catch (err) {
             message.error("Ошибка при загрузке табаков");
@@ -45,7 +44,7 @@ const AdminDashboard = () => {
 
     const fetchJars = async () => {
         try {
-            const res = await axios.get(`${getBackendUrl()}/api/jars`);
+            const res = await API.get(`/jars`);
             setJars(res.data);
         } catch (err) {
             message.error("Ошибка при загрузке банок");
@@ -54,9 +53,7 @@ const AdminDashboard = () => {
 
     const handleCreateTobacco = async (values) => {
         try {
-            await axios.post(`${getBackendUrl()}/api/tobaccos`, values, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            await API.post(`/tobaccos`, values);
             message.success("Табак добавлен");
             setShowTobaccoModal(false);
             tobaccoForm.resetFields();
@@ -68,9 +65,7 @@ const AdminDashboard = () => {
 
     const handleCreateJar = async (values) => {
         try {
-            await axios.post(`${getBackendUrl()}/api/jars`, values, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            await API.post(`/jars`, values);
             message.success("Банка создана");
             setShowJarModal(false);
             jarForm.resetFields();
@@ -82,10 +77,8 @@ const AdminDashboard = () => {
 
     const handlePutTobacco = async (values) => {
         try {
-            await axios.post(`${getBackendUrl()}/api/jars/${values.jarId}/add`, {
+            await API.post(`/jars/${values.jarId}/add`, {
                 tobaccoId: values.tobaccoId,
-            }, {
-                headers: { Authorization: `Bearer ${token}` },
             });
             message.success("Табак положен в банку");
             setShowPutModal(false);

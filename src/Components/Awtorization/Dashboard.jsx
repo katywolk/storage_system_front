@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "antd";
-import {getBackendUrl} from "../../utils";
+import API from "../Utils/axiosInstance";
+
 
 
 const Dashboard = () => {
@@ -18,14 +19,10 @@ const Dashboard = () => {
             return;
         }
 
-        fetch(`${getBackendUrl()}/api/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
+        API.get(`/me`)
             .then(res => {
                 if (res.status === 401) throw new Error("Unauthorized");
-                return res.json();
+                return res;
             })
             .then(data => setUser(data.user))
             .catch(() => {
@@ -37,8 +34,7 @@ const Dashboard = () => {
     useEffect(() => {
         if (!user) return;
 
-        fetch(`${getBackendUrl()}/api/jars`)
-            .then(res => res.json())
+        API.get(`/jars`)
             .then(data => {
                 setItems(data);
                 const reviews = [];

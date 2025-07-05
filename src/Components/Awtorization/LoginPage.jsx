@@ -2,16 +2,15 @@ import React from "react";
 import { Button, Checkbox, Form, Input, message } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../Utils/axiosInstance";
 import "./LoginPage.css";
-import {getBackendUrl} from "../../utils";
 
 const LoginPage = () => {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
         try {
-            const res = await axios.post(`${getBackendUrl()}/api/login`,
+            const res = await API.post(`/login`,
                 values,
                 { withCredentials: true }
             );

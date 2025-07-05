@@ -2,9 +2,8 @@ import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../Utils/axiosInstance";
 import "./LoginPage.css";
-import { getBackendUrl } from "../../utils";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -18,7 +17,7 @@ const RegisterPage = () => {
         }
 
         try {
-            await axios.post(`${getBackendUrl()}/api/register`, {
+            await API.post(`/register`, {
                 email,
                 password,
             });

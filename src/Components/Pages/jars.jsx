@@ -15,9 +15,10 @@ import {
     message
 } from "antd";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import QRCodeWithLogo from "../QRCode";
-import {getBackendUrl, getFrontendUrl} from "../../utils";
+import {getFrontendUrl} from "../../utils";
+import API from "../Utils/axiosInstance";
+
 
 
 const { Title, Text } = Typography;
@@ -34,9 +35,11 @@ const Jars = () => {
     const [createForm] = Form.useForm();
     const [printMode, setPrintMode] = useState(false);
 
+
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
     const isAdmin = user?.role === "admin";
+
 
     useEffect(() => {
         if (printMode) {
@@ -51,8 +54,8 @@ const Jars = () => {
     const fetchData = async () => {
         try {
             const [jarRes, tobaccoRes] = await Promise.all([
-                axios.get(`${getBackendUrl()}/api/jars`),
-                axios.get(`${getBackendUrl()}/api/tobaccos`)
+                API.get(`/jars`),
+                API.get(`/tobaccos`)
             ]);
             setJars(jarRes.data);
             setTobaccos(tobaccoRes.data);
@@ -65,10 +68,9 @@ const Jars = () => {
 
     const handlePutTobacco = async (values) => {
         try {
-            await axios.post(
-                `${getBackendUrl()}/api/jars/${activeJar}/add`,
+            await API.post(
+                `/jars/${activeJar}/add`,
                 { tobaccoId: values.tobaccoId },
-                { headers: { Authorization: `Bearer ${token}` } }
             );
             message.success("Табак положен в банку");
             setActiveJar(null);
@@ -81,9 +83,7 @@ const Jars = () => {
 
     const handleDeleteTobacco = async (jarId) => {
         try {
-            await axios.delete(`${getBackendUrl()}/api/jars/${jarId}/tobacco`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await API.delete(`/jars/${jarId}/tobacco`);
             message.success("Табак удалён");
             fetchData();
         } catch (err) {
@@ -107,9 +107,7 @@ const Jars = () => {
 
     const handleCreateJar = async (values) => {
         try {
-            await axios.post(`${getBackendUrl()}/api/jars`, values, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await API().post(`/jars`, values);
             message.success("Банка создана");
             setShowCreateModal(false);
             createForm.resetFields();
