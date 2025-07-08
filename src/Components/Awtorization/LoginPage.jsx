@@ -20,6 +20,7 @@ const LoginPage = () => {
             message.success("Вы успешно вошли!");
             navigate("/dashboard");
         } catch (error) {
+            console.error(error);
             message.error(error.response?.data?.message || "Ошибка входа");
         }
     };
