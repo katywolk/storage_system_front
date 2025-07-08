@@ -130,7 +130,7 @@ const Jars = () => {
     if (error)
         return <Alert type="error" message={error} style={{ marginTop: 100 }} />;
 
-
+    console.log(isAdmin);
     return (
         <div style={{ padding: "40px" }}>
             <Title className="no-print" level={2}>Банки</Title>
