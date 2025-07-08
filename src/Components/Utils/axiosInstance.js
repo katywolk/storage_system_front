@@ -2,7 +2,7 @@ import axios from "axios";
 import {getBackendUrl} from "../../utils";
 
 const API = axios.create({
-    baseURL: getBackendUrl()+'/api/',
+    baseURL: getBackendUrl()+'api/',
 });
 
 // Подключаем токен ко всем запросам
