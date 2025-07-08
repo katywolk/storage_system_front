@@ -107,7 +107,7 @@ const Jars = () => {
 
     const handleCreateJar = async (values) => {
         try {
-            await API().post(`/jars`, values);
+            await API.post(`/jars`, values);
             message.success("Банка создана");
             setShowCreateModal(false);
             createForm.resetFields();
