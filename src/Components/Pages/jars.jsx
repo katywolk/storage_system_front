@@ -259,7 +259,7 @@ const Jars = () => {
                         <Select placeholder="Выберите табак">
                             {getAvailableTobaccos().map((t) => (
                                 <Option key={t._id} value={t._id}>
-                                    {t.title}
+                                    {t.flavor} "{t.title}"
                                 </Option>
                             ))}
                         </Select>
