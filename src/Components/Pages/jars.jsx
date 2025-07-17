@@ -202,7 +202,7 @@ const Jars = () => {
                                         dataSource={[tobacco]}
                                         renderItem={(t) => (
                                             <List.Item className="no-print">
-                                                <Text>{t.title}</Text>
+                                                <Text>{t.flavor} "{t.title}"</Text>
                                                 {isAdmin && (
                                                     <Button
                                                         danger
