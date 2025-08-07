@@ -15,7 +15,6 @@ const LoginPage = () => {
                 { withCredentials: true }
             );
             localStorage.setItem("token", res.data.token);
-            console.log({res});
             localStorage.setItem("user", JSON.stringify(res.data.user));
             message.success("Вы успешно вошли!");
             navigate("/dashboard");

@@ -17,4 +17,15 @@ API.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
+API.interceptors.response.use(response => {
+    return response;
+}, error => {
+    console.error('[AXIOS_ERROR]', error);
+    if (error.response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+    }
+    return Promise.reject(error);
+});
+
 export default API;
