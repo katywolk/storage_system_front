@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Input, Button, Typography, Row, Col, Modal, Form, message } from "antd";
+import { Card, Input, Button, Typography, Row, Col, Modal, Form, message, Rate } from "antd";
 import API from "../Utils/axiosInstance";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -101,6 +101,7 @@ const TobaccosList = () => {
                             ]}
                         >
                             <p><b>Вкус:</b> {tobacco.flavor}</p>
+                            <p><b>Оценка:</b> <Rate allowHalf disabled defaultValue={tobacco.rating} /></p>
                             <p><b>Описание:</b> {tobacco.description}</p>
                             {tobacco.jar && (
                                 <p><b>В банке:</b> {tobacco.jar?.title || "Банка"}</p>

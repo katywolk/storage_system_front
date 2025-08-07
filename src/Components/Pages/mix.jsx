@@ -131,7 +131,7 @@ const MixPage = () => {
                                     .filter((t) => !usedIds.includes(t._id) || t._id === item.tobaccoId)
                                     .map((t) => (
                                         <Option key={t._id} value={t._id}>
-                                            {t.title}
+                                            {t.flavor} "{t.title}"
                                         </Option>
                                     ))}
                             </Select>

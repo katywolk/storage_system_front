@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Card, Rate, Form, Input, Button, Spin, Alert, message } from "antd";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import {Card, Rate, Form, Input, Button, Spin, Alert, message, Typography} from "antd";
+
 import API from "../Utils/axiosInstance";
 
-const { TextArea } = Input;
+const { Text } = Typography;
+const {TextArea} = Input;
 
 const TobaccoInfoPage = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const [tobacco, setTobacco] = useState(null);
     const [loading, setLoading] = useState(true);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         API
@@ -25,6 +28,14 @@ const TobaccoInfoPage = () => {
                 setError("Не удалось загрузить табак");
                 setLoading(false);
             });
+        API
+            .get(`/reviews?targetType=Tobacco&targetId=${id}`)
+            .then((res) => {
+                setReviews(res.data);
+            })
+            .catch((err) => {
+                console.error('Ошибка загрузки отзывов:', err);
+            });
     }, [id]);
 
     const handleSubmit = async () => {
@@ -35,10 +46,12 @@ const TobaccoInfoPage = () => {
 
         setSubmitting(true);
         try {
-            await API.post("/tobaccos/review", {
-                tobaccoId: id,
+            await API.post("/reviews", {
+
                 rating,
-                comment,
+                text: comment,           // Переименуй поле: `comment` → `text`
+                targetType: 'Tobacco',   // или 'Mix'
+                targetId: id
             });
             message.success("Отзыв отправлен!");
             setRating(0);
@@ -50,45 +63,56 @@ const TobaccoInfoPage = () => {
         }
     };
 
-    if (loading) return <Spin tip="Загрузка..." style={{ marginTop: 100 }} />;
-    if (error) return <Alert type="error" message={error} style={{ marginTop: 100 }} />;
+    if (loading) return <Spin tip="Загрузка..." style={{marginTop: 100}}/>;
+    if (error) return <Alert type="error" message={error} style={{marginTop: 100}}/>;
 
     return (
-        <Card
-            title={tobacco.title}
-            style={{
+        <>
+            <Card title={tobacco.title}
+                  extra={<Rate allowHalf disabled defaultValue={tobacco.rating} />}
+                  style={{
                 maxWidth: 600,
                 margin: "40px auto",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
                 borderRadius: 12,
-            }}
-        >
-            <p><strong>Вкус:</strong> {tobacco.flavor}</p>
-            <p><strong>Описание:</strong> {tobacco.description}</p>
+            }}>
+                <p><strong>Вкус:</strong> {tobacco.flavor}</p>
+                <p><strong>Описание:</strong> {tobacco.description}</p>
+                <Form layout="vertical" style={{marginTop: 30}}>
+                    <Form.Item label="Оценка">
+                        <Rate value={rating} onChange={setRating}/>
+                    </Form.Item>
+                    <Form.Item label="Комментарий">
+                        <TextArea rows={4} value={comment} onChange={(e) => setComment(e.target.value)}/>
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" onClick={handleSubmit} loading={submitting} block>
+                            Отправить отзыв
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Card>
 
-            <Form layout="vertical" style={{ marginTop: 30 }}>
-                <Form.Item label="Оценка">
-                    <Rate value={rating} onChange={setRating} />
-                </Form.Item>
-                <Form.Item label="Комментарий">
-                    <TextArea
-                        rows={4}
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Button
-                        type="primary"
-                        onClick={handleSubmit}
-                        loading={submitting}
-                        block
-                    >
-                        Отправить отзыв
-                    </Button>
-                </Form.Item>
-            </Form>
-        </Card>
+
+            {reviews.map((review) => (
+                <Card title={review.user?.username ?? 'Anonymous'}
+                      actions={[
+                          <Rate allowHalf disabled defaultValue={review.rating} />,
+                          null,
+                          <Text key="createdAt">{review.createdAt}</Text>,
+                      ]}
+                      style={{
+                    maxWidth: 600,
+                    margin: "40px auto",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                    borderRadius: 12,
+                }}>
+                    <p>
+                        <Text>{review.text}</Text>
+                    </p>
+                </Card>
+            ))}
+        </>
     );
 };
 

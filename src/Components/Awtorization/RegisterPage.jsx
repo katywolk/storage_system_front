@@ -9,7 +9,7 @@ const RegisterPage = () => {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        const { email, password, confirmPassword } = values;
+        const { email, password, username, confirmPassword } = values;
 
         if (password !== confirmPassword) {
             message.error("Пароли не совпадают");
@@ -20,6 +20,7 @@ const RegisterPage = () => {
             await API.post(`/register`, {
                 email,
                 password,
+                username,
             });
 
             message.success("Регистрация прошла успешно!");
@@ -39,6 +40,13 @@ const RegisterPage = () => {
                           console.log("Ошибка при отправке формы:", errorInfo);
                       }}
                       >
+
+                    <Form.Item
+                        name="username"
+                        rules={[{ required: true, message: "Введите Имя пользователя" }]}
+                    >
+                        <Input prefix={<UserOutlined />} placeholder="Имя пользователя" />
+                    </Form.Item>
 
                     <Form.Item
                         name="email"
